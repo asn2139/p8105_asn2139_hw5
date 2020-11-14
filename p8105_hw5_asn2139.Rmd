@@ -1,0 +1,40 @@
+---
+title: "Homework 5"
+author: Akanksha Nalatwad
+output: html_document
+---
+
+
+```{r setup, include = FALSE}
+library(tidyverse)
+library(rvest)
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_color_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+## Problem 1
+
+```{r}
+homicide_df=
+  read_csv("data/homicide-data.csv") %>% 
+  mutate(
+    city_state= str_c(city, state, sep = "_"),
+    resolved= case_when(
+      disposition=="Closed without arrest"~ "unsolved",
+      disposition=="Open/No arrest"       ~ "unsolved",
+      disposition== "Closed by arrest"      ~"solved"
+      )
+  ) %>% 
+  select(city_state,resolved)
+```
+Let's look at this a bit
