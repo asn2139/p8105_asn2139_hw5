@@ -86,14 +86,7 @@ results_df %>%
 ```
 ## Problem 2
 
-```{r}
-practice_csv=
-  read_csv("lda_data/con_01.csv") %>% 
-  pivot_longer(week_1:week_8,
-              names_to="week_number",
-              values_to="week_obs"
-            )
-```
+Data Mapping and Tidying
 
 
 ```{r}
@@ -124,9 +117,10 @@ tibble(
 
 ## Spaghetti Plot
 ```{r}
+plot_p=
 ggplot(data = path_df, aes(x = week_number, y = weekly_observation, group = Arm_ID))+
    geom_line(aes(linetype=arm))
-
-
 ```
+
+## Problem 3
 
