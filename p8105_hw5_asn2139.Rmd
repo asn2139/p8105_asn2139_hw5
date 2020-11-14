@@ -26,7 +26,7 @@ scale_fill_discrete = scale_fill_viridis_d
 
 ```{r}
 homicide_df=
-  read_csv("data/homicide-data.csv") %>% 
+  read_csv("homicide_data/homicide-data.csv") %>% 
   mutate(
     city_state= str_c(city, state, sep = "_"),
     resolved= case_when(

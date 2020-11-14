@@ -380,7 +380,7 @@ summary {
 <div id="problem-1" class="section level2">
 <h2>Problem 1</h2>
 <pre class="r"><code>homicide_df=
-  read_csv(&quot;data/homicide-data.csv&quot;) %&gt;% 
+  read_csv(&quot;homicide_data/homicide-data.csv&quot;) %&gt;% 
   mutate(
     city_state= str_c(city, state, sep = &quot;_&quot;),
     resolved= case_when(
