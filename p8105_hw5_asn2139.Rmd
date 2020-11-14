@@ -35,6 +35,41 @@ homicide_df=
       disposition== "Closed by arrest"      ~"solved"
       )
   ) %>% 
-  select(city_state,resolved)
+  select(city_state,resolved) %>% 
+  filter(city_state !="Tulsa_AL")
 ```
 Let's look at this a bit
+
+```{r}
+aggregate_df=
+homicide_df %>% 
+  group_by(city_state) %>% 
+  summarize(
+    hom_total=n(),
+    hom_unsolved= sum(resolved=="unsolved")
+  )
+  
+```
+
+Can I do a prop test for a single city?
+
+```{r}
+prop.test(
+  aggregate_df %>% filter (city_state=="Baltimore_MD") %>% pull(hom_unsolved),
+  aggregate_df %>% filter (city_state=="Baltimore_MD") %>% pull(hom_total)) %>% 
+  broom::tidy()
+```
+
+ 
+Try to iterate.....
+
+```{r}
+
+aggregate_df %>% 
+  mutate(
+    prop_tests= map2(.x=hom_unsolved, .y=hom_total, ~prop.test(x=.x, n=.y)),
+    tidy_tests= map (.x= prop_tests, ~broom::tidy(.x))
+  ) 
+  
+```
+

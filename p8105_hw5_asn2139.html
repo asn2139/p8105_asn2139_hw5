@@ -389,7 +389,8 @@ summary {
       disposition== &quot;Closed by arrest&quot;      ~&quot;solved&quot;
       )
   ) %&gt;% 
-  select(city_state,resolved)</code></pre>
+  select(city_state,resolved) %&gt;% 
+  filter(city_state !=&quot;Tulsa_AL&quot;)</code></pre>
 <pre><code>## 
 ## ── Column specification ────────────────────────────────────────────────────────
 ## cols(
@@ -407,6 +408,43 @@ summary {
 ##   disposition = col_character()
 ## )</code></pre>
 <p>Let’s look at this a bit</p>
+<pre class="r"><code>aggregate_df=
+homicide_df %&gt;% 
+  group_by(city_state) %&gt;% 
+  summarize(
+    hom_total=n(),
+    hom_unsolved= sum(resolved==&quot;unsolved&quot;)
+  )</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<p>Can I do a prop test for a single city?</p>
+<pre class="r"><code>prop.test(
+  aggregate_df %&gt;% filter (city_state==&quot;Baltimore_MD&quot;) %&gt;% pull(hom_unsolved),
+  aggregate_df %&gt;% filter (city_state==&quot;Baltimore_MD&quot;) %&gt;% pull(hom_total)) %&gt;% 
+  broom::tidy()</code></pre>
+<pre><code>## # A tibble: 1 x 8
+##   estimate statistic  p.value parameter conf.low conf.high method    alternative
+##      &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;      
+## 1    0.646      239. 6.46e-54         1    0.628     0.663 1-sample… two.sided</code></pre>
+<p>Try to iterate…..</p>
+<pre class="r"><code>aggregate_df %&gt;% 
+  mutate(
+    prop_tests= map2(.x=hom_unsolved, .y=hom_total, ~prop.test(x=.x, n=.y)),
+    tidy_tests= map (.x= prop_tests, ~broom::tidy(.x))
+  ) </code></pre>
+<pre><code>## # A tibble: 50 x 5
+##    city_state     hom_total hom_unsolved prop_tests tidy_tests      
+##    &lt;chr&gt;              &lt;int&gt;        &lt;int&gt; &lt;list&gt;     &lt;list&gt;          
+##  1 Albuquerque_NM       378          146 &lt;htest&gt;    &lt;tibble [1 × 8]&gt;
+##  2 Atlanta_GA           973          373 &lt;htest&gt;    &lt;tibble [1 × 8]&gt;
+##  3 Baltimore_MD        2827         1825 &lt;htest&gt;    &lt;tibble [1 × 8]&gt;
+##  4 Baton Rouge_LA       424          196 &lt;htest&gt;    &lt;tibble [1 × 8]&gt;
+##  5 Birmingham_AL        800          347 &lt;htest&gt;    &lt;tibble [1 × 8]&gt;
+##  6 Boston_MA            614          310 &lt;htest&gt;    &lt;tibble [1 × 8]&gt;
+##  7 Buffalo_NY           521          319 &lt;htest&gt;    &lt;tibble [1 × 8]&gt;
+##  8 Charlotte_NC         687          206 &lt;htest&gt;    &lt;tibble [1 × 8]&gt;
+##  9 Chicago_IL          5535         4073 &lt;htest&gt;    &lt;tibble [1 × 8]&gt;
+## 10 Cincinnati_OH        694          309 &lt;htest&gt;    &lt;tibble [1 × 8]&gt;
+## # … with 40 more rows</code></pre>
 </div>
 
 
