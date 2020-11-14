@@ -64,12 +64,24 @@ prop.test(
 Try to iterate.....
 
 ```{r}
-
+results_df=
 aggregate_df %>% 
   mutate(
     prop_tests= map2(.x=hom_unsolved, .y=hom_total, ~prop.test(x=.x, n=.y)),
     tidy_tests= map (.x= prop_tests, ~broom::tidy(.x))
-  ) 
-  
+  ) %>% 
+  select(-prop_tests) %>% 
+  unnest(tidy_tests) %>% 
+  select(city_state, estimate, conf.low, conf.high)
+```
+
+
+```{r}
+results_df %>% 
+  mutate(city_state=fct_reorder(city_state, estimate)) %>% 
+  ggplot(aes(x=city_state, y=estimate))+
+  geom_point()+
+  geom_errorbar(aes(ymin=conf.low, ymax=conf.high))+
+  theme(axis.text.x= element_text (angle=90, vjust=0.5, hjust=1))
 ```
 
