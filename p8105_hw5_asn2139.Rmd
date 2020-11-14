@@ -84,4 +84,49 @@ results_df %>%
   geom_errorbar(aes(ymin=conf.low, ymax=conf.high))+
   theme(axis.text.x= element_text (angle=90, vjust=0.5, hjust=1))
 ```
+## Problem 2
+
+```{r}
+practice_csv=
+  read_csv("lda_data/con_01.csv") %>% 
+  pivot_longer(week_1:week_8,
+              names_to="week_number",
+              values_to="week_obs"
+            )
+```
+
+
+```{r}
+path_df=
+tibble(
+  path= list.files("lda_data")
+) %>% 
+  mutate(path=str_c("lda_data/", path),
+         path_2=path,
+         data=map(path, read_csv)) %>% 
+  separate(col=path_2, into=c("path_a", "path_b"), sep=9, remove=T) %>% 
+  separate(col=path_b, into= c("arm", "id_number", sep=3)) %>% 
+  select(-path_a,-c(5)) %>% 
+  mutate(
+  arm=str_replace(arm,"exp","Experimental"), 
+  arm=str_replace(arm, "con", "Control")) %>% 
+  within(Arm_ID <- paste(arm, id_number, sep='_')) %>% 
+  select(-id_number) %>% 
+  unnest(data) %>%
+ pivot_longer(week_1:week_8,
+              names_to="week_number",
+              values_to="weekly_observation"
+            ) %>% 
+  mutate(
+    week_number= str_replace(week_number, "week_", "")
+  )
+```
+
+## Spaghetti Plot
+```{r}
+ggplot(data = path_df, aes(x = week_number, y = weekly_observation, group = Arm_ID))+
+   geom_line(aes(linetype=arm))
+
+
+```
 
