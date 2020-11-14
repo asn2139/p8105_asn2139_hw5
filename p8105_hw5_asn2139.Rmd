@@ -126,36 +126,25 @@ ggplot(data = path_df, aes(x = week_number, y = weekly_observation, group = Arm_
 
 Function
 ```{r}
-simul_1 = function(mu, samp_size=30, sigma=5) {
-  
-  sim_data = tibble(
-    x = rnorm(mu,samp_size,sigma)
-  )
-  
-  sim_data %>% 
-    summarize(mu_hat = mean(x))%>%
-mutate(
-t_test = map(x, ~t.test(x, alternative = 'two.sided', paired = FALSE, conf.level = 0.95))
+n=30
+sigma=5
+mu=0
+mean=mu
+sd=sigma
+
+sample= function (n, mean, sd){
+  samp_data= tibble
+  (samp=rnorm(n, mean, sd))
+  samp_result=
+    samp_data %>% 
+    mutate(
+t_test = map(.x = samp, ~t.test(samp, alternative = 'two.sided', paired = FALSE, conf.level = 0.95))
 )
+return(samp_result)
 }
+
 
 ```
 
-```{r}
-mu_list = 
-  list(
-    "mu_1" = 1, 
-    "mu_2" = 2, 
-    "mu_3" = 3, 
-    "mu_4" = 4,
-    "mu_5" = 5,
-    "mu_6" = 6)
 
-output = vector("list", length = 6)
-
-for (i in 1:6) {
-  output[[i]] = rerun(5000, simul_1(mu_list[[i]])) %>% 
-    bind_rows
-}
-```
 
