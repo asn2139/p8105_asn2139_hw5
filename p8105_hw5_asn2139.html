@@ -747,7 +747,7 @@ sample= function (n, mean, sd){
   samp_result=
     samp_data %&gt;% 
     mutate(
-t_test = map(.x = samp, ~t.test(samp, alternative = &#39;two.sided&#39;, paired = FALSE, conf.level = 0.95))
+t_test = map(.x = samp, ~t.test(x=.x, alternative = &#39;two.sided&#39;, paired = FALSE, conf.level = 0.95))
 )
 return(samp_result)
 }</code></pre>
