@@ -121,6 +121,9 @@ plot_p=
 ggplot(data = path_df, aes(x = week_number, y = weekly_observation, group = Arm_ID))+
    geom_line(aes(linetype=arm))
 ```
+Comments on Plot:
+
+It looks like generally the experimental patients had higher weekly observations than the control patients. In general, experimental patients showed less dramatic differences in observations by week compared to control patients. Additionally, it looks like the experimental patients' observations increased over time compared to control patients who fluctuated around the same number of observations. 
 
 ## Problem 3
 
@@ -131,10 +134,12 @@ sigma=5
 mu=0
 mean=mu
 sd=sigma
+samp=rnorm(n, mean, sd)
 
 sample= function (n, mean, sd){
   samp_data= tibble
   (samp=rnorm(n, mean, sd))
+  
   samp_result=
     samp_data %>% 
     mutate(
@@ -144,6 +149,7 @@ return(samp_result)
 }
 
 
+sample(n, mu, sigma)
 ```
 
 
