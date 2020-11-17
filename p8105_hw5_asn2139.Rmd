@@ -129,7 +129,7 @@ It looks like generally the experimental patients had higher weekly observations
 
 Function
 
-```{r}
+```{r, cache=TRUE}
 
 library(broom)
 n=30
@@ -151,51 +151,43 @@ unnest(t_test)
 return(samp_result)
 }
 
+```
+
+```{r}
+mean_list =
+  list(
+    "mean_0" = 0,
+    "mean_1" = 1,
+    "mean_2" = 2,
+    "mean_3" = 3,
+    "mean_4" = 4,
+    "mean_5" = 5,
+    "mean_6" = 6
+    )
+
+output = vector("list", length = 7)
+
+for (i in 1:7) {
+  output[[i]] = rerun(10, sample(10, mean_list[[i]], 5)) %>% 
+  bind_rows()
+}
+
 sim_results = 
-  tibble(mu= c(0,1,2,3,4,5,6)) %>% 
+  tibble(mu = c(0,1,2,3,4,5,6)) %>% 
   mutate(
-    output_lists = map(.x=mu, ~rerun(10, sample(n = .x))),
+    output_lists = map(.x =mu, ~rerun(10, sample(10, mean_list[[i]], 5))),
     estimate_dfs = map(output_lists, bind_rows)) %>% 
   select(-output_lists) %>% 
-  unnest(estimate_dfs)
-
-
-data_1=
-rerun(5000,sample(30,0,5)) %>% 
-  bind_rows() %>% 
-  select(p.value) %>% 
+  unnest(estimate_dfs) %>% 
+  select(mu,p.value, estimate) %>% 
   mutate(
-    mu=0
-  ) 
-  
- data_1=
-rerun(5000,sample(30,0,5)) %>% 
-  bind_rows() %>% 
-  select(p.value) %>% 
-  mutate(
-    mu=0
-  ) 
- 
- data_1=
-rerun(5000,sample(30,0,5)) %>% 
-  bind_rows() %>% 
-  select(p.value) %>% 
-  mutate(
-    mu=0
-  ) 
-
-data_1=
-rerun(5000,sample(30,0,5)) %>% 
-  bind_rows() %>% 
-  select(p.value) %>% 
-  mutate(
-    mu=0
-  ) 
-
-
- 
+    hyp_test=ifelse(p.value > 0.05, "fail_to_reject", "reject")
+  )
 
 ```
+
+
+
 
 
 
