@@ -186,8 +186,15 @@ sim_results =
 
 ```
 
+## Plot 1: Effect Size and Power
+
+```{r}
+
+```
 
 
+## Plot 2: True Mu vs Estimated Mu
 
+## Plot3: True Mu vs Estimated Mu, Only in Examples For Which Null Was Rejected
 
 
