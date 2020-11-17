@@ -195,6 +195,14 @@ sim_results =
 
 ## Plot 2: True Mu vs Estimated Mu
 
+```{r}
+
+```
+
+
 ## Plot3: True Mu vs Estimated Mu, Only in Examples For Which Null Was Rejected
 
+```{r}
+
+```
 
