@@ -731,26 +731,37 @@ tibble(
 <pre class="r"><code>plot_p=
 ggplot(data = path_df, aes(x = week_number, y = weekly_observation, group = Arm_ID))+
    geom_line(aes(linetype=arm))</code></pre>
+<p>Comments on Plot:</p>
+<p>It looks like generally the experimental patients had higher weekly observations than the control patients. In general, experimental patients showed less dramatic differences in observations by week compared to control patients. Additionally, it looks like the experimental patients’ observations increased over time compared to control patients who fluctuated around the same number of observations.</p>
 </div>
 <div id="problem-3" class="section level2">
 <h2>Problem 3</h2>
 <p>Function</p>
 <pre class="r"><code>n=30
 sigma=5
-mu=0
+mu=c(0,1,2,3,4,5,6)
 mean=mu
 sd=sigma
 
-sample= function (n, mean, sd){
-  samp_data= tibble
-  (samp=rnorm(n, mean, sd))
-  samp_result=
-    samp_data %&gt;% 
-    mutate(
-t_test = map(.x = samp, ~t.test(x=.x, alternative = &#39;two.sided&#39;, paired = FALSE, conf.level = 0.95))
+sample = function(n, mean, sd){
+samp_data = tibble(
+samp = rnorm(n, mean, sd)
+)
+samp_result = nest(samp_data) %&gt;%
+mutate(
+t_test = map(.x = data, ~t.test(x = .x,mu=0, alternative = &#39;two.sided&#39;, paired = FALSE, conf.level = 0.95))
 )
 return(samp_result)
-}</code></pre>
+}
+
+
+sample(n, mu, sigma) </code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##   data              t_test 
+##   &lt;list&gt;            &lt;list&gt; 
+## 1 &lt;tibble [30 × 1]&gt; &lt;htest&gt;</code></pre>
 </div>
 
 

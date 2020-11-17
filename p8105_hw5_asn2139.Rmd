@@ -128,28 +128,27 @@ It looks like generally the experimental patients had higher weekly observations
 ## Problem 3
 
 Function
+
 ```{r}
 n=30
 sigma=5
-mu=0
+mu=c(0,1,2,3,4,5,6)
 mean=mu
 sd=sigma
-samp=rnorm(n, mean, sd)
 
-sample= function (n, mean, sd){
-  samp_data= tibble
-  (samp=rnorm(n, mean, sd))
-  
-  samp_result=
-    samp_data %>% 
-    mutate(
-t_test = map(.x = samp, ~t.test(x=.x, alternative = 'two.sided', paired = FALSE, conf.level = 0.95))
+sample = function(n, mean, sd){
+samp_data = tibble(
+samp = rnorm(n, mean, sd)
+)
+samp_result = nest(samp_data) %>%
+mutate(
+t_test = map(.x = data, ~t.test(x = .x,mu=0, alternative = 'two.sided', paired = FALSE, conf.level = 0.95))
 )
 return(samp_result)
 }
 
 
-sample(n, mu, sigma)
+sample(n, mu, sigma) 
 ```
 
 
