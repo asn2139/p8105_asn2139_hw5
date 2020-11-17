@@ -737,7 +737,8 @@ ggplot(data = path_df, aes(x = week_number, y = weekly_observation, group = Arm_
 <div id="problem-3" class="section level2">
 <h2>Problem 3</h2>
 <p>Function</p>
-<pre class="r"><code>n=30
+<pre class="r"><code>library(broom)
+n=30
 sigma=5
 mu=c(0,1,2,3,4,5,6)
 mean=mu
@@ -747,21 +748,672 @@ sample = function(n, mean, sd){
 samp_data = tibble(
 samp = rnorm(n, mean, sd)
 )
+
 samp_result = nest(samp_data) %&gt;%
 mutate(
-t_test = map(.x = data, ~t.test(x = .x,mu=0, alternative = &#39;two.sided&#39;, paired = FALSE, conf.level = 0.95))
-)
+  t_test = map(.x = data, ~{tidy(t.test(x = .x,mu=0, alternative = &#39;two.sided&#39;, paired = FALSE, conf.level = 0.95))})) %&gt;% 
+unnest(t_test)
+
 return(samp_result)
-}
+}</code></pre>
+<pre class="r"><code>mean_list =
+  list(
+    &quot;mean_0&quot; = 0,
+    &quot;mean_1&quot; = 1,
+    &quot;mean_2&quot; = 2,
+    &quot;mean_3&quot; = 3,
+    &quot;mean_4&quot; = 4,
+    &quot;mean_5&quot; = 5,
+    &quot;mean_6&quot; = 6
+    )
 
+output = vector(&quot;list&quot;, length = 7)
 
-sample(n, mu, sigma) </code></pre>
+for (i in 1:7) {
+  output[[i]] = rerun(10, sample(10, mean_list[[i]], 5)) %&gt;% 
+  bind_rows()
+}</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre class="r"><code>sim_results = 
+  tibble(mu = c(0,1,2,3,4,5,6)) %&gt;% 
+  mutate(
+    output_lists = map(.x =mu, ~rerun(10, sample(10, mean_list[[i]], 5))),
+    estimate_dfs = map(output_lists, bind_rows)) %&gt;% 
+  select(-output_lists) %&gt;% 
+  unnest(estimate_dfs) %&gt;% 
+  select(mu,p.value, estimate) %&gt;% 
+  mutate(
+    hyp_test=ifelse(p.value &gt; 0.05, &quot;fail_to_reject&quot;, &quot;reject&quot;)
+  )</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.
+
+## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
 <pre><code>## Warning: `...` must not be empty for ungrouped data frames.
 ## Did you want `data = everything()`?</code></pre>
-<pre><code>## # A tibble: 1 x 2
-##   data              t_test 
-##   &lt;list&gt;            &lt;list&gt; 
-## 1 &lt;tibble [30 × 1]&gt; &lt;htest&gt;</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `output_lists`.
+## ℹ `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?
+## ℹ Input `output_lists` is `map(.x = mu, ~rerun(10, sample(10, mean_list[[i]], 5)))`.</code></pre>
+<pre><code>## Warning: `...` must not be empty for ungrouped data frames.
+## Did you want `data = everything()`?</code></pre>
 </div>
 
 
