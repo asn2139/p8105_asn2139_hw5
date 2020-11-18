@@ -129,7 +129,7 @@ It looks like generally the experimental patients had higher weekly observations
 
 Function
 
-```{r, cache=TRUE}
+```{r}
 
 library(broom)
 n=30
@@ -153,7 +153,7 @@ return(samp_result)
 
 ```
 
-```{r, cache=TRUE}
+```{r}
 mean_list =
   list(
     "mean_0" = 0,
