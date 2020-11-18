@@ -201,10 +201,9 @@ sim_results %>%
   ) %>% 
   ggplot(aes(x=mu, y= prop))+
   geom_point()
-  
-
 ```
 
+Comments on Plot: It looks like this plot follows a chunk of a sinusoidal function. It seems to have a repeating peaks and valleys as mu increases. However, it is importan to note that the proportions of rejected observations across the board are extremely small and not that different. It's range is 0.131-0.132. 
 
 ## Plot 2: True Mu vs Estimated Mu
 
@@ -214,6 +213,8 @@ sim_results %>%
   group_by(mu) %>% 
   summarize(avg_mu= mean(estimate)) %>% 
   ggplot(aes(x=mu,y=avg_mu))+geom_point()+geom_line()
+
+
 ```
 
 
@@ -228,3 +229,5 @@ sim_results %>%
   ggplot(aes(x=mu,y=avg_mu))+geom_point()+geom_line() 
 ```
 
+Reflection: 
+It does not look like the sample average of μ̂ across tests for which the null is rejected approximatel isy equal to the true value of μ because the sample size is so small and the standard deviation was so large. Smaller sample sizes lead to smaller amounts of power in a study/test. Additionally, larger standard deviations also result in smaller power sizes. Both of these effects lead to less likely chance that the a null hypothesis will be correctly rejected.
